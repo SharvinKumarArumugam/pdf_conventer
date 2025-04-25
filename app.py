@@ -2,7 +2,7 @@ import streamlit as st
 from pdf2docx import Converter
 from docx2pdf import convert as docx2pdf_convert
 from fpdf import FPDF
-#from pdf2image import convert_from_bytes
+from pdf2image import convert
 from PIL import Image
 import os
 import tempfile
