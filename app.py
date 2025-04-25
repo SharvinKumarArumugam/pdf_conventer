@@ -2,7 +2,7 @@ import streamlit as st
 from pdf2docx import Converter
 import pypandoc
 from fpdf import FPDF
-from pdf2image import convert_from_bytes
+
 from PIL import Image
 import os
 import tempfile
@@ -43,14 +43,7 @@ def convert_image_to_pdf(image_file, output_path):
     image = Image.open(image_file).convert("RGB")
     image.save(output_path)
 
-def convert_pdf_to_images(pdf_bytes, output_folder):
-    images = convert_from_bytes(pdf_bytes)
-    image_paths = []
-    for i, img in enumerate(images):
-        img_path = os.path.join(output_folder, f"page_{i+1}.png")
-        img.save(img_path, 'PNG')
-        image_paths.append(img_path)
-    return image_paths
+
 
 # --- Streamlit UI ---
 st.markdown("💡 Upload a file to convert it as per selected option.")
@@ -83,9 +76,4 @@ if uploaded_file and st.button("Convert"):
                 with open(output_path, "rb") as f:
                     st.download_button("📥 Download PDF File", f, file_name="image_to_pdf.pdf")
 
-            elif option == "PDF to Images":
-                image_paths = convert_pdf_to_images(uploaded_file.read(), tmpdir)
-                for img_path in image_paths:
-                    st.image(img_path)
-                    with open(img_path, "rb") as f:
-                        st.download_button(f"📥 Download {os.path.basename(img_path)}", f, file_name=os.path.basename(img_path))
+         
